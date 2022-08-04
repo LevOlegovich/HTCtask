@@ -39,9 +39,11 @@ public class EmployeesAdapter extends ListAdapter<EmployeeInfo, EmployeeViewHold
     public void onBindViewHolder(@NonNull EmployeeViewHolder holder, int position) {
 
         EmployeeInfo employee = getItem(position);
+        String number = String.valueOf(position + 1);
         holder.name.setText(employee.getName());
         holder.phoneNumber.setText(employee.getPhoneNumber());
         holder.skills.setText(employee.getSkills().toString());
+        holder.itemNumber.setText(number);
 
         Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(), android.R.anim.slide_in_left);
         holder.itemView.startAnimation(animation);

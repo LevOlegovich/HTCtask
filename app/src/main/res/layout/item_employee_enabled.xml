@@ -96,5 +96,16 @@
         app:layout_constraintEnd_toEndOf="@+id/moreImageViewButton"
         app:layout_constraintStart_toStartOf="@+id/photoImageView" />
 
+    <TextView
+        android:id="@+id/itemNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="1"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvSkills"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photoImageView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

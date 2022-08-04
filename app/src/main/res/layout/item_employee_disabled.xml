@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-    android:background="#33B2BABA"
+    android:background="#7B8080"
     android:clickable="true"
     android:padding="3dp">
 
@@ -96,6 +96,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/moreImageViewButton"
         app:layout_constraintStart_toStartOf="@+id/photoImageView" />
+
+    <TextView
+        android:id="@+id/itemNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="2"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvSkills"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photoImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

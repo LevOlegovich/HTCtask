@@ -13,12 +13,14 @@ public class EmployeeViewHolder extends RecyclerView.ViewHolder {
     TextView name;
     TextView phoneNumber;
     TextView skills;
+    TextView itemNumber;
 
     public EmployeeViewHolder(@NonNull View itemView) {
         super(itemView);
         this.name = itemView.findViewById(R.id.tvName);
         this.phoneNumber = itemView.findViewById(R.id.tvPhoneNumber);
         this.skills = itemView.findViewById(R.id.tvSkills);
+        this.itemNumber=itemView.findViewById(R.id.itemNumber);
     }
 
 

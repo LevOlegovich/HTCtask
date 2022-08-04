@@ -6,7 +6,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.nlv2022.htctask"
+        applicationId "com.nlv2022.htc"
         minSdk 19
         targetSdk 32
         versionCode 1

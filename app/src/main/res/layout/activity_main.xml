@@ -34,33 +34,56 @@
                     android:text="Company:"
                     android:textColor="#CCB14747"
                     android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold|italic" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="name:"
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/textViewNameCompany"
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
-                    android:text="Name"
+                    android:text="HTC"
                     android:textColor="#018786"
                     android:textSize="16sp"
                     android:textStyle="bold|italic" />
 
                 <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="age:"
+                    android:textSize="10sp" />
+
+                <TextView
                     android:id="@+id/textViewAgeCompany"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Age"
+                    android:text="18"
                     android:textColor="@color/teal_700"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="competences:"
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/textViewCompetencesCompany"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="competences&quot;: [&quot;Android&quot;, &quot;IOS&quot;, &quot;.NET&quot;, &quot;PHP&quot;, &quot;Smart-TV&quot;, &quot;Java&quot;]"
+                    android:text="[&quot;Android&quot;, &quot;IOS&quot;, &quot;.NET&quot;, &quot;PHP&quot;, &quot;Smart-TV&quot;, &quot;Java&quot;]"
                     android:textColor="@color/teal_700"
                     android:textSize="16sp"
                     android:textStyle="bold|italic" />
+
             </LinearLayout>
         </ScrollView>
 
@@ -106,7 +129,26 @@
         android:text="Employees:"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="refresh time -->"
+        app:layout_constraintBottom_toBottomOf="@+id/refrechBtn"
+        app:layout_constraintEnd_toStartOf="@+id/refrechBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rcView" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="500"
+        app:layout_constraintBottom_toTopOf="@+id/rcView"
+        app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>
