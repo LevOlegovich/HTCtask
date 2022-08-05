@@ -6,10 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-    android:background="#7B8080"
-    android:clickable="true"
-    android:padding="3dp">
-
+    android:background="@color/dark_white_disabled"
+    android:clickable="true">
 
 
     <ImageView

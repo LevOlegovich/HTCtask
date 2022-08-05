@@ -3,6 +3,7 @@ package com.nlv2022.htc.data.mapper;
 import com.nlv2022.htc.data.database.EmployeeDbModel;
 import com.nlv2022.htc.data.network.CompanyDto;
 import com.nlv2022.htc.data.network.EmployeeDto;
+import com.nlv2022.htc.data.network.RootEntityDto;
 import com.nlv2022.htc.domain.entity.CompanyInfo;
 import com.nlv2022.htc.domain.entity.EmployeeInfo;
 
@@ -38,6 +39,16 @@ public class EmployeeMapper {
             list.add(mapDbModelToEntity(employee));
         }
         return list;
+    }
+
+
+    public List<EmployeeDbModel> getEmployeesDbModelsFromDto(RootEntityDto rootEntityDto) {
+        List<EmployeeDbModel> employeeDbModelList = new ArrayList<>();
+        List<EmployeeDto> employeeDtoList = rootEntityDto.getCompany().getEmployees();
+        for (EmployeeDto employeeDto : employeeDtoList) {
+            employeeDbModelList.add(mapDtoToDbModel(employeeDto));
+        }
+        return employeeDbModelList;
     }
 
 

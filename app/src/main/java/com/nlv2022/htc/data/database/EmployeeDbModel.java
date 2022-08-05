@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.nlv2022.htc.data.mapper.Converter;
+import com.nlv2022.htc.data.mapper.SkillsConverter;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class EmployeeDbModel {
     private final int id;
     private final String name;
     private final String phoneNumber;
-    @TypeConverters(value = Converter.class)
+    @TypeConverters(value = SkillsConverter.class)
     private final List<String> skills;
 
     public EmployeeDbModel(int id, String name, String phoneNumber, List<String> skills) {

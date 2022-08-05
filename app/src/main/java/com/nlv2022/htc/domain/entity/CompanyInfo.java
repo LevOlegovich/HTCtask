@@ -8,7 +8,7 @@ import java.util.List;
 public class CompanyInfo {
     private String name = Constants.DEFAULT_VALUE;
     private String age = Constants.DEFAULT_VALUE;
-    private List<String> competences = Arrays.asList(new String[]{Constants.DEFAULT_VALUE});
+    private List<String> competences = Arrays.asList(Constants.DEFAULT_VALUE);
 
     public CompanyInfo(String name, String age, List<String> competences) {
         this.name = name;

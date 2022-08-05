@@ -6,7 +6,7 @@ import androidx.room.TypeConverters;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.nlv2022.htc.constants.Constants;
-import com.nlv2022.htc.data.mapper.Converter;
+import com.nlv2022.htc.data.mapper.SkillsConverter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,8 +25,8 @@ public class EmployeeDto {
     private String phoneNumber = Constants.DEFAULT_VALUE;
     @SerializedName("skills")
     @Expose
-    @TypeConverters(value = Converter.class)
-    private List<String> skills = Arrays.asList(new String[]{Constants.DEFAULT_VALUE});
+    @TypeConverters(value = SkillsConverter.class)
+    private List<String> skills = Arrays.asList(Constants.DEFAULT_VALUE);
 
 
 

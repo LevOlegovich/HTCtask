@@ -20,14 +20,15 @@ import com.nlv2022.htc.domain.entity.CompanyInfo;
 import com.nlv2022.htc.domain.entity.EmployeeInfo;
 import com.nlv2022.htc.presentation.adapter.EmployeesAdapter;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 
-/**     Список сотрудников хранится в базе данных,
-        общая информация о компании и время последнего успешного
-обновления -- в SharedPreferences.*/
+/**
+ * Список сотрудников хранится в базе данных,
+ * общая информация о компании и время последнего успешного
+ * обновления -- в SharedPreferences.
+ */
 
 
 public class MainActivityEmployees extends AppCompatActivity {
@@ -44,16 +45,13 @@ public class MainActivityEmployees extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
         refrechButton = binding.refrechBtn;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivityEmployees.this);
-        ArrayList<EmployeeInfo> deafaultEmployees = new ArrayList<>();
         initRecyclerView();
 
         viewModel = new ViewModelProvider(this).get(EmployeesViewModel.class);
@@ -61,16 +59,11 @@ public class MainActivityEmployees extends AppCompatActivity {
             @Override
             public void onChanged(List<EmployeeInfo> employees) {
                 Collections.sort(employees, EmployeeInfo.byName);
-                Log.d("MyTag", "list employees: " + employees);
+                adapter.submitList(employees);
+                updateTextViewAfterLoadData(viewModel.getCompanyInfo(), employees);
 
-                if (employees.isEmpty()) {
-                    adapter.submitList(deafaultEmployees);
-                    updateTextViewOnStart(viewModel.getCompanyInfo());
-                } else {
-                    adapter.submitList(employees);
-                    updateTextViewOnStart(viewModel.getCompanyInfo());
-                }
-                Log.d("MyTag", "status in observe: " + viewModel.getStatusLoad());
+                Log.d("MyTag", "list employees: " + employees);
+                Log.d("MyTag", "status in observe: " + viewModel.getStatusFromLoadInfo());
 
             }
 
@@ -87,6 +80,7 @@ public class MainActivityEmployees extends AppCompatActivity {
 
     }
 
+
     private void initRecyclerView() {
         recyclerViewEmployees = binding.rcView;
         adapter = new EmployeesAdapter();
@@ -94,20 +88,28 @@ public class MainActivityEmployees extends AppCompatActivity {
         recyclerViewEmployees.setAdapter(adapter);
     }
 
+    // updateTextViewAfterLoadData -- здесь  логика отображения данных.
+    private void updateTextViewAfterLoadData(CompanyInfo companyInfo, List<EmployeeInfo> employees) {
 
-    private void updateTextViewOnStart(CompanyInfo companyInfo) {
-        if (viewModel.getStatusLoad() == true) {
+        initCountEmployees(employees);   // установка текста в TextView (количества сотрудников)
+
+        if (viewModel.getStatusFromLoadInfo()) {    // проверка статуса загрузки данных у обьекта класса LoadInfo
             String timeUpdate = viewModel.getTimeUpdate();
-            initText
-                    (timeUpdate,
-                            companyInfo.getName(),
-                            companyInfo.getAge(),
-                            companyInfo.getCompetences().toString());
-            writeSharedPref();
+            initText(timeUpdate,
+                    companyInfo.getName(),
+                    companyInfo.getAge(),
+                    companyInfo.getCompetences().toString());  // установка текста в TextView и...
+            writeSharedPref();     // ...и его запись в SharedPreferences
         } else {
-            initViewFromSharedPref();
+            initViewFromSharedPref();// // установка текста в TextView из SharedPreferences
         }
 
+    }
+
+
+    private void initCountEmployees(List<EmployeeInfo> employees) {
+        String count = String.valueOf(employees.size());
+        binding.itemCount.setText(count);
     }
 
 

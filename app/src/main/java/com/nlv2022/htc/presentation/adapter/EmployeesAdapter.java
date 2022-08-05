@@ -15,6 +15,7 @@ import com.nlv2022.htc.domain.entity.EmployeeInfo;
 
 public class EmployeesAdapter extends ListAdapter<EmployeeInfo, EmployeeViewHolder> {
 
+
     public EmployeesAdapter() {
         super(new EmployeesDiffCalback());
     }
@@ -32,6 +33,8 @@ public class EmployeesAdapter extends ListAdapter<EmployeeInfo, EmployeeViewHold
         }
         View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         return new EmployeeViewHolder(view);
+
+
     }
 
 
@@ -45,7 +48,7 @@ public class EmployeesAdapter extends ListAdapter<EmployeeInfo, EmployeeViewHold
         holder.skills.setText(employee.getSkills().toString());
         holder.itemNumber.setText(number);
 
-        Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(), android.R.anim.slide_in_left);
+        Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(), android.R.anim.fade_in);
         holder.itemView.startAnimation(animation);
 
     }

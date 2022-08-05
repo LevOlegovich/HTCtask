@@ -18,7 +18,7 @@ public class CompanyDto {
     private String age = Constants.DEFAULT_VALUE;
     @SerializedName("competences")
     @Expose
-    private List<String> competences = Arrays.asList(new String[]{Constants.DEFAULT_VALUE});
+    private List<String> competences = Arrays.asList(Constants.DEFAULT_VALUE);
 
     @SerializedName("employees")
     @Expose

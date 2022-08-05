@@ -4,59 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#979F9F"
+    android:background="@color/dark_white"
     tools:context=".presentation.MainActivityEmployees">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:background="#D6E2ED"
+        android:background="@color/dark_white"
         android:orientation="vertical"
-        android:padding="10dp"
         android:scrollbars="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="5dp"
+                android:background="@color/dark_white"
+                android:orientation="vertical"
+                android:padding="2dp"
+                android:paddingStart="8dp">
 
                 <TextView
                     android:id="@+id/textViewTitleCompany"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Company:"
-                    android:textColor="#CCB14747"
-                    android:textSize="24sp"
+                    android:text="@string/company"
+                    android:textColor="@color/dark_green"
+                    android:textSize="14sp"
                     android:textStyle="bold|italic" />
 
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="name:"
+                    android:text="@string/name"
                     android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/textViewNameCompany"
-                    android:layout_width="125dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="HTC"
-                    android:textColor="#018786"
-                    android:textSize="16sp"
+                    android:text="@string/dash"
+                    android:textColor="@color/dark_green"
+                    android:textSize="14sp"
                     android:textStyle="bold|italic" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="age:"
+                    android:text="@string/age"
                     android:textSize="10sp" />
 
                 <TextView
@@ -64,24 +70,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="18"
-                    android:textColor="@color/teal_700"
-                    android:textSize="16sp"
+                    android:textColor="@color/dark_green"
+                    android:textSize="14sp"
                     android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="competences:"
+                    android:text="@string/competences"
                     android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/textViewCompetencesCompany"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="[&quot;Android&quot;, &quot;IOS&quot;, &quot;.NET&quot;, &quot;PHP&quot;, &quot;Smart-TV&quot;, &quot;Java&quot;]"
-                    android:textColor="@color/teal_700"
-                    android:textSize="16sp"
+                    android:text="@string/dash"
+                    android:textColor="@color/dark_green"
+                    android:textSize="14sp"
                     android:textStyle="bold|italic" />
 
             </LinearLayout>
@@ -95,16 +101,18 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/refrechBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintTop_toBottomOf="@+id/textView11"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/refrechBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="обновить"
+        android:layout_marginBottom="6dp"
+        android:text="@string/update"
+        app:cornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -115,19 +123,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:text="---"
+        android:layout_marginBottom="3dp"
+        android:text="@string/dash"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/refrechBtn"
-        app:layout_constraintTop_toBottomOf="@+id/rcView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="Employees:"
-        android:textSize="20sp"
+        android:text="@string/employees"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
@@ -136,18 +145,19 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="refresh time -->"
-        app:layout_constraintBottom_toBottomOf="@+id/refrechBtn"
-        app:layout_constraintEnd_toStartOf="@+id/refrechBtn"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp"
+        android:text="@string/updated_time"
+        android:textColor="@color/dark_green"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/refrechBtn"
         app:layout_constraintTop_toBottomOf="@+id/rcView" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/itemCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="500"
+        android:text="@string/dash"
         app:layout_constraintBottom_toTopOf="@+id/rcView"
         app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />

@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import java.util.Arrays;
 import java.util.List;
 
-public class Converter {
+public class SkillsConverter {
 
     @TypeConverter
     public String get_string(List<String> skills) {
@@ -23,6 +23,5 @@ public class Converter {
                 (skills.replace("[", " ")
                         .replace("]", " ").split(","));
     }
-
 
 }

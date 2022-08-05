@@ -52,7 +52,7 @@ public class EmployeesViewModel extends AndroidViewModel {
         return getCompanyUseCase.getCompanyInfo();
     }
 
-    public boolean getStatusLoad() {
+    public boolean getStatusFromLoadInfo() {
         return repozitory.getStatusLoad();
     }
 
