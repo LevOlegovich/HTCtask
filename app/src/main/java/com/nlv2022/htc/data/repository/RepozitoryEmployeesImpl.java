@@ -74,7 +74,6 @@ public class RepozitoryEmployeesImpl implements RepozitoryEmployees {
         ApiService apiService = apiFactory.getApiservice();
 
         Disposable disposable = apiService.getRootEntity()
-                .delay(5, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<RootEntityDto>() {

@@ -91,17 +91,20 @@ public class MainActivityEmployees extends AppCompatActivity {
     // updateTextViewAfterLoadData -- здесь  логика отображения данных.
     private void updateTextViewAfterLoadData(CompanyInfo companyInfo, List<EmployeeInfo> employees) {
 
-        initCountEmployees(employees);   // установка текста в TextView (количества сотрудников)
+        initCountEmployees(employees);   // установка текста в TextView , a именно--количество сотрудников)
 
         if (viewModel.getStatusFromLoadInfo()) {    // проверка статуса загрузки данных у обьекта класса LoadInfo
-            String timeUpdate = viewModel.getTimeUpdate();
+            String timeUpdate = viewModel.getTimeUpdate(); //получение времени загрузки.
             initText(timeUpdate,
                     companyInfo.getName(),
                     companyInfo.getAge(),
                     companyInfo.getCompetences().toString());  // установка текста в TextView и...
-            writeSharedPref();     // ...и его запись в SharedPreferences
+            writeSharedPref(timeUpdate,
+                    companyInfo.getName(),
+                    companyInfo.getAge(),
+                    companyInfo.getCompetences().toString());     // ...и его запись в SharedPreferences
         } else {
-            initViewFromSharedPref();// // установка текста в TextView из SharedPreferences
+            initViewFromSharedPref(); // установка текста в TextView из SharedPreferences
         }
 
     }
@@ -113,14 +116,9 @@ public class MainActivityEmployees extends AppCompatActivity {
     }
 
 
-    private void writeSharedPref() {
+    private void writeSharedPref(String timeUpdate, String nameCompany, String ageCompany, String competencesCompany) {
 
         editor = sharedPreferences.edit();
-        binding.tvTime.setText(viewModel.getTimeUpdate());
-        String timeUpdate = binding.tvTime.getText().toString();
-        String nameCompany = binding.textViewNameCompany.getText().toString();
-        String ageCompany = binding.textViewAgeCompany.getText().toString();
-        String competencesCompany = binding.textViewCompetencesCompany.getText().toString();
         editor.putString(Constants.TIME_UPDATE, timeUpdate);
         editor.putString(Constants.NAME_COMPANY, nameCompany);
         editor.putString(Constants.AGE_COMPANY, ageCompany);
