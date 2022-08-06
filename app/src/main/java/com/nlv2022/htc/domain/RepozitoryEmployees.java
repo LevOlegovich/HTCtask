@@ -15,6 +15,8 @@ public interface RepozitoryEmployees {
 
     String getTimeUpdate();
 
+    public boolean getStatusLoad();
+
     CompanyInfo getCompanyInfo();
 
 

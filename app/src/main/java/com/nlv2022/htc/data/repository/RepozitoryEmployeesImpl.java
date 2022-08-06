@@ -113,6 +113,11 @@ public class RepozitoryEmployeesImpl implements RepozitoryEmployees {
     }
 
     @Override
+    public boolean getStatusLoad() {
+        return loadInfo.getStatus();
+    }
+
+    @Override
     public CompanyInfo getCompanyInfo() {
         return company;
     }
@@ -129,9 +134,7 @@ public class RepozitoryEmployeesImpl implements RepozitoryEmployees {
         return simpleDateFormat.format(date);
     }
 
-    public boolean getStatusLoad() {
-        return loadInfo.getStatus();
-    }
+
 
     private void insertEmployees(List<EmployeeDbModel> employees) {
         new InsertEmployeesTask().execute(employees);

@@ -73,7 +73,7 @@ public class MainActivityEmployees extends AppCompatActivity {
         refrechButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.loadDataViewModel();
+                viewModel.loadData();
             }
         });
 
@@ -94,7 +94,7 @@ public class MainActivityEmployees extends AppCompatActivity {
         initCountEmployees(employees);   // установка текста в TextView , a именно--количество сотрудников)
 
         if (viewModel.getStatusFromLoadInfo()) {    // проверка статуса загрузки данных у обьекта класса LoadInfo
-            String timeUpdate = viewModel.getTimeUpdate(); //получение времени загрузки.
+            String timeUpdate = viewModel.getTimeUpdateFromLoadInfo(); //получение времени загрузкиу обьекта класса LoadInfo
             initText(timeUpdate,
                     companyInfo.getName(),
                     companyInfo.getAge(),

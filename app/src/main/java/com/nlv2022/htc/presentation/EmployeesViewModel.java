@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.nlv2022.htc.data.repository.RepozitoryEmployeesImpl;
 import com.nlv2022.htc.domain.GetCompanyUseCase;
 import com.nlv2022.htc.domain.GetListEmployeesUseCase;
+import com.nlv2022.htc.domain.GetStatusLoadUseCase;
 import com.nlv2022.htc.domain.GetTimeUpdateUseCase;
 import com.nlv2022.htc.domain.LoadDataUseCase;
 import com.nlv2022.htc.domain.entity.CompanyInfo;
@@ -23,6 +24,7 @@ public class EmployeesViewModel extends AndroidViewModel {
     private final GetListEmployeesUseCase getListEmployeesUseCase;
     private final LoadDataUseCase loadDataUseCase;
     private final GetTimeUpdateUseCase getTimeUpdateUseCase;
+    private final GetStatusLoadUseCase getStatusLoadUseCase;
     private final GetCompanyUseCase getCompanyUseCase;
 
 
@@ -31,10 +33,11 @@ public class EmployeesViewModel extends AndroidViewModel {
 
         this.repozitory = new RepozitoryEmployeesImpl(application);
         this.getTimeUpdateUseCase = new GetTimeUpdateUseCase(repozitory);
+        this.getStatusLoadUseCase = new GetStatusLoadUseCase(repozitory);
         this.getListEmployeesUseCase = new GetListEmployeesUseCase(this.repozitory);
         this.loadDataUseCase = new LoadDataUseCase(this.repozitory);
         this.getCompanyUseCase = new GetCompanyUseCase(repozitory);
-        loadDataViewModel();
+        loadData();
 
     }
 
@@ -44,7 +47,7 @@ public class EmployeesViewModel extends AndroidViewModel {
     }
 
 
-    public void loadDataViewModel() {
+    public void loadData() {
         loadDataUseCase.loadData();
     }
 
@@ -53,10 +56,10 @@ public class EmployeesViewModel extends AndroidViewModel {
     }
 
     public boolean getStatusFromLoadInfo() {
-        return repozitory.getStatusLoad();
+        return getStatusLoadUseCase.getStatusLoad();
     }
 
-    public String getTimeUpdate() {
+    public String getTimeUpdateFromLoadInfo() {
         return getTimeUpdateUseCase.getTimeUpdate();
     }
 
