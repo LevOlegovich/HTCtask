@@ -6,11 +6,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class RootEntityDto {
 
-
     @SerializedName("company")
     @Expose
     private CompanyDto company;
-
 
 
     public CompanyDto getCompany() {

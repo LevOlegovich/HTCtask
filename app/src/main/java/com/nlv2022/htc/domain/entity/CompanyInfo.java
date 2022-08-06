@@ -1,14 +1,11 @@
 package com.nlv2022.htc.domain.entity;
 
-import com.nlv2022.htc.constants.Constants;
-
-import java.util.Arrays;
 import java.util.List;
 
 public class CompanyInfo {
-    private String name = Constants.DEFAULT_VALUE;
-    private String age = Constants.DEFAULT_VALUE;
-    private List<String> competences = Arrays.asList(Constants.DEFAULT_VALUE);
+    private String name;
+    private String age;
+    private List<String> competences;
 
     public CompanyInfo(String name, String age, List<String> competences) {
         this.name = name;
@@ -18,7 +15,6 @@ public class CompanyInfo {
 
     public CompanyInfo() {
     }
-
 
 
     public String getName() {

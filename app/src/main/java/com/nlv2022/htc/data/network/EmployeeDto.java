@@ -12,8 +12,10 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class EmployeeDto {
+/** Полям класса присвоены значения по умолчанию во избежание NPE ,
+ *  так как в json некоторые поля могут быть пустые. */
 
+public class EmployeeDto {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
