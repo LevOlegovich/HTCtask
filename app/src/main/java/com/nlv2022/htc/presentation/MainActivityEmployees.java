@@ -14,10 +14,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nlv2022.htc.constants.Constants;
 import com.nlv2022.htc.databinding.ActivityMainBinding;
-import com.nlv2022.htc.domain.entity.CompanyInfo;
 import com.nlv2022.htc.domain.entity.EmployeeInfo;
+import com.nlv2022.htc.domain.entity.GeneralInfo;
 import com.nlv2022.htc.presentation.adapter.EmployeesAdapter;
 
 import java.util.Collections;
@@ -60,10 +59,13 @@ public class MainActivityEmployees extends AppCompatActivity {
             public void onChanged(List<EmployeeInfo> employees) {
                 Collections.sort(employees, EmployeeInfo.byName);
                 adapter.submitList(employees);
-                updateTextViewAfterLoadData(viewModel.getCompanyInfo(), employees);
 
+                updateTextViewAfterLoadData(viewModel.getGeneralInfo(), employees);
+                viewModel.saveGeneralInfo();
                 Log.d("MyTag", "list employees: " + employees);
-                Log.d("MyTag", "status in observe: " + viewModel.getStatusFromLoadInfo());
+               // Log.d("MyTag", "status in observe: " + viewModel.getStatusFromLoadInfo());
+                Log.d("MyTag", "shared in observe: " + viewModel.getGeneralInfo().getTimeUpdate());
+
 
             }
 
@@ -89,23 +91,13 @@ public class MainActivityEmployees extends AppCompatActivity {
     }
 
     // updateTextViewAfterLoadData -- здесь  логика отображения данных.
-    private void updateTextViewAfterLoadData(CompanyInfo companyInfo, List<EmployeeInfo> employees) {
+    private void updateTextViewAfterLoadData(GeneralInfo generalInfo, List<EmployeeInfo> employees) {
 
-        initCountEmployees(employees);   // установка текста в TextView , a именно--количество сотрудников)
-
-        if (viewModel.getStatusFromLoadInfo()) {    // проверка статуса загрузки данных у обьекта класса LoadInfo
-            String timeUpdate = viewModel.getTimeUpdateFromLoadInfo(); //получение времени загрузкиу обьекта класса LoadInfo
-            initText(timeUpdate,
-                    companyInfo.getName(),
-                    companyInfo.getAge(),
-                    companyInfo.getCompetences().toString());  // установка текста в TextView и...
-            writeSharedPref(timeUpdate,
-                    companyInfo.getName(),
-                    companyInfo.getAge(),
-                    companyInfo.getCompetences().toString());     // ...и его запись в SharedPreferences
-        } else {
-            initViewFromSharedPref(); // установка текста в TextView из SharedPreferences
-        }
+        initCountEmployees(employees);          // установка текста в TextView , a именно--количество сотрудников)
+        initText(generalInfo.getTimeUpdate(),
+                generalInfo.getNameCompany(),
+                generalInfo.getAgeCompany(),
+                generalInfo.getCompetensec());  // установка текста в TextView (общая информация из SharedPreferences)
 
     }
 
@@ -115,30 +107,6 @@ public class MainActivityEmployees extends AppCompatActivity {
         binding.itemCount.setText(count);
     }
 
-
-    private void writeSharedPref(String timeUpdate, String nameCompany, String ageCompany, String competencesCompany) {
-
-        editor = sharedPreferences.edit();
-        editor.putString(Constants.TIME_UPDATE, timeUpdate);
-        editor.putString(Constants.NAME_COMPANY, nameCompany);
-        editor.putString(Constants.AGE_COMPANY, ageCompany);
-        editor.putString(Constants.COMPETENCES_COMPANY, competencesCompany);
-        editor.commit();
-        Log.d("MyTag", "sharedPreferences Write " + timeUpdate);
-    }
-
-
-    private void initViewFromSharedPref() {
-        String timeUpdate = sharedPreferences.getString(Constants.TIME_UPDATE, Constants.DEFAULT_VALUE);
-        String nameCompany = sharedPreferences.getString(Constants.NAME_COMPANY, Constants.DEFAULT_VALUE);
-        String ageCompany = sharedPreferences.getString(Constants.AGE_COMPANY, Constants.DEFAULT_VALUE);
-        String competencesCompany = sharedPreferences.getString(Constants.COMPETENCES_COMPANY, Constants.DEFAULT_VALUE);
-        initText(timeUpdate,
-                nameCompany,
-                ageCompany,
-                competencesCompany);
-        Log.d("MyTag", "sharedPreferences init " + binding.textViewNameCompany.getText().toString());
-    }
 
     private void initText(String timeUpdate, String nameCompany, String ageCompany, String competencesCompany) {
         binding.tvTime.setText(timeUpdate);

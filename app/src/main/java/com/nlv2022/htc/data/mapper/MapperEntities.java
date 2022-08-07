@@ -4,13 +4,15 @@ import com.nlv2022.htc.data.database.EmployeeDbModel;
 import com.nlv2022.htc.data.network.CompanyDto;
 import com.nlv2022.htc.data.network.EmployeeDto;
 import com.nlv2022.htc.data.network.RootEntityDto;
+import com.nlv2022.htc.data.sharedpref.GeneralInfoShared;
 import com.nlv2022.htc.domain.entity.CompanyInfo;
 import com.nlv2022.htc.domain.entity.EmployeeInfo;
+import com.nlv2022.htc.domain.entity.GeneralInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeMapper {
+public class MapperEntities {
 
     public EmployeeDbModel mapDtoToDbModel(EmployeeDto dto) {
         return new EmployeeDbModel(
@@ -60,4 +62,21 @@ public class EmployeeMapper {
 
     }
 
+    public GeneralInfo getGeneralInfo(GeneralInfoShared generalInfoShared) {
+        return new GeneralInfo(
+                generalInfoShared.getNameCompany(),
+                generalInfoShared.getAgeCompany(),
+                generalInfoShared.getCompetensec(),
+                generalInfoShared.getTimeUpdate());
+
+    }
+
+
+    public GeneralInfoShared getGeneralInfoShared(GeneralInfo generalInfo) {
+        return new GeneralInfoShared(
+                generalInfo.getNameCompany(),
+                generalInfo.getAgeCompany(),
+                generalInfo.getCompetensec(),
+                generalInfo.getTimeUpdate());
+    }
 }

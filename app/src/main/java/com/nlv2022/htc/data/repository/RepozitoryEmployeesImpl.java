@@ -19,11 +19,15 @@ import com.nlv2022.htc.data.ApiService;
 import com.nlv2022.htc.data.database.AppDataBase;
 import com.nlv2022.htc.data.database.EmployeeDao;
 import com.nlv2022.htc.data.database.EmployeeDbModel;
-import com.nlv2022.htc.data.mapper.EmployeeMapper;
+import com.nlv2022.htc.data.mapper.MapperEntities;
 import com.nlv2022.htc.data.network.RootEntityDto;
+import com.nlv2022.htc.data.sharedpref.GeneralInfoShared;
+import com.nlv2022.htc.data.sharedpref.ISharedPrefData;
+import com.nlv2022.htc.data.sharedpref.SharedPrefDataImpl;
 import com.nlv2022.htc.domain.RepozitoryEmployees;
 import com.nlv2022.htc.domain.entity.CompanyInfo;
 import com.nlv2022.htc.domain.entity.EmployeeInfo;
+import com.nlv2022.htc.domain.entity.GeneralInfo;
 import com.nlv2022.htc.domain.entity.LoadInfo;
 
 import java.text.SimpleDateFormat;
@@ -41,14 +45,16 @@ public class RepozitoryEmployeesImpl implements RepozitoryEmployees {
     private final Application application;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final EmployeeDao employeeDao;
-    private final EmployeeMapper employeeMapper = new EmployeeMapper();
+    private final MapperEntities mapper = new MapperEntities();
     private LoadInfo loadInfo = new LoadInfo(false, Constants.DEFAULT_VALUE);
     private CompanyInfo company = new CompanyInfo();
+    private final ISharedPrefData sharedPrefData;
 
 
     public RepozitoryEmployeesImpl(Application application) {
         this.application = application;
         this.employeeDao = AppDataBase.getInstance(application).employeeDao();
+        this.sharedPrefData = new SharedPrefDataImpl(application);
     }
 
 
@@ -59,7 +65,7 @@ public class RepozitoryEmployeesImpl implements RepozitoryEmployees {
                 new Function<List<EmployeeDbModel>, List<EmployeeInfo>>() {
                     @Override
                     public List<EmployeeInfo> apply(List<EmployeeDbModel> dbModelList) {
-                        return employeeMapper.mapListDbModelToEntity(dbModelList);
+                        return mapper.mapListDbModelToEntity(dbModelList);
                     }
                 }
         );
@@ -81,12 +87,14 @@ public class RepozitoryEmployeesImpl implements RepozitoryEmployees {
                         deleteAllEmployees(); // удаление данных из базы в другом потоке.
 
                         List<EmployeeDbModel> employeeDbModelList =
-                                employeeMapper.getEmployeesDbModelsFromDto(rootEntityDto);
+                                mapper.getEmployeesDbModelsFromDto(rootEntityDto);
 
                         insertEmployees(employeeDbModelList); // добавление данных из базы в другом потоке.
 
                         loadInfo = new LoadInfo(true, getCurrentTime());
-                        company = employeeMapper.mapCompanyDtoToEntity(rootEntityDto.getCompany());
+                        company = mapper.mapCompanyDtoToEntity(rootEntityDto.getCompany());
+
+
 
                         Toast.makeText(application, R.string.success, Toast.LENGTH_SHORT).show();
                         Log.d("MyTag", "status in RepozitoryEmployeesImpl : " + loadInfo.getStatus());
@@ -122,6 +130,20 @@ public class RepozitoryEmployeesImpl implements RepozitoryEmployees {
         return company;
     }
 
+    @Override
+    public GeneralInfo getGeneralInfo() {
+
+        GeneralInfoShared generalInfoShared = sharedPrefData.getGeneralInfoShared();
+        return mapper.getGeneralInfo(generalInfoShared);
+    }
+
+    @Override
+    public void saveGeneralInfo(GeneralInfo generalInfo) {
+
+        sharedPrefData.saveGeneralInfoShared(mapper.getGeneralInfoShared(generalInfo));
+
+    }
+
 
     public CompositeDisposable getCompositeDisposable() {
         return compositeDisposable;
@@ -133,7 +155,6 @@ public class RepozitoryEmployeesImpl implements RepozitoryEmployees {
                 "HH:mm:ss - dd/MM/yyyy", Locale.getDefault());
         return simpleDateFormat.format(date);
     }
-
 
 
     private void insertEmployees(List<EmployeeDbModel> employees) {

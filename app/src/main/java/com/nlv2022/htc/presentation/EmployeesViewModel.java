@@ -7,13 +7,16 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.nlv2022.htc.data.repository.RepozitoryEmployeesImpl;
-import com.nlv2022.htc.domain.GetCompanyUseCase;
-import com.nlv2022.htc.domain.GetListEmployeesUseCase;
-import com.nlv2022.htc.domain.GetStatusLoadUseCase;
-import com.nlv2022.htc.domain.GetTimeUpdateUseCase;
-import com.nlv2022.htc.domain.LoadDataUseCase;
+import com.nlv2022.htc.domain.usecase.GetCompanyUseCase;
+import com.nlv2022.htc.domain.usecase.GetGeneralInfoUseCase;
+import com.nlv2022.htc.domain.usecase.GetListEmployeesUseCase;
+import com.nlv2022.htc.domain.usecase.GetStatusLoadUseCase;
+import com.nlv2022.htc.domain.usecase.GetTimeUpdateUseCase;
+import com.nlv2022.htc.domain.usecase.LoadDataUseCase;
 import com.nlv2022.htc.domain.entity.CompanyInfo;
 import com.nlv2022.htc.domain.entity.EmployeeInfo;
+import com.nlv2022.htc.domain.entity.GeneralInfo;
+import com.nlv2022.htc.domain.usecase.SaveGeneralInfoUseCase;
 
 import java.util.List;
 
@@ -26,6 +29,8 @@ public class EmployeesViewModel extends AndroidViewModel {
     private final GetTimeUpdateUseCase getTimeUpdateUseCase;
     private final GetStatusLoadUseCase getStatusLoadUseCase;
     private final GetCompanyUseCase getCompanyUseCase;
+    private GetGeneralInfoUseCase getGeneralInfoUseCase;
+    private SaveGeneralInfoUseCase saveGeneralInfoUseCase;
 
 
     public EmployeesViewModel(@NonNull Application application) {
@@ -37,6 +42,8 @@ public class EmployeesViewModel extends AndroidViewModel {
         this.getListEmployeesUseCase = new GetListEmployeesUseCase(this.repozitory);
         this.loadDataUseCase = new LoadDataUseCase(this.repozitory);
         this.getCompanyUseCase = new GetCompanyUseCase(repozitory);
+        this.getGeneralInfoUseCase = new GetGeneralInfoUseCase(repozitory);
+        this.saveGeneralInfoUseCase = new SaveGeneralInfoUseCase(repozitory);
         loadData();
 
     }
@@ -51,16 +58,29 @@ public class EmployeesViewModel extends AndroidViewModel {
         loadDataUseCase.loadData();
     }
 
-    public CompanyInfo getCompanyInfo() {
+    private CompanyInfo getCompanyInfo() {
         return getCompanyUseCase.getCompanyInfo();
     }
 
-    public boolean getStatusFromLoadInfo() {
+    private boolean getStatusFromLoadInfo() {
         return getStatusLoadUseCase.getStatusLoad();
+    } // оказался не нужен, возможно удалю
+
+    private String getTimeUpdateFromLoadInfo() {
+        return getTimeUpdateUseCase.getTimeUpdate();
     }
 
-    public String getTimeUpdateFromLoadInfo() {
-        return getTimeUpdateUseCase.getTimeUpdate();
+    public GeneralInfo getGeneralInfo() {
+        return getGeneralInfoUseCase.getGeneralInfo();
+    }
+
+    public void saveGeneralInfo() {
+        GeneralInfo generalInfo = new GeneralInfo(
+                getCompanyInfo().getName(),
+                getCompanyInfo().getAge(),
+                getCompanyInfo().getCompetences().toString(),
+                getTimeUpdateFromLoadInfo());
+        saveGeneralInfoUseCase.saveGeneralInfo(generalInfo);
     }
 
 

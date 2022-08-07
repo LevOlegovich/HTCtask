@@ -1,5 +1,6 @@
-package com.nlv2022.htc.domain;
+package com.nlv2022.htc.domain.usecase;
 
+import com.nlv2022.htc.domain.RepozitoryEmployees;
 import com.nlv2022.htc.domain.entity.CompanyInfo;
 
 public class GetCompanyUseCase {
