@@ -1,17 +1,17 @@
 package com.nlv2022.htc.domain.usecase;
 
-import com.nlv2022.htc.domain.RepozitoryEmployees;
+import com.nlv2022.htc.domain.repozitory.IRepozitory;
 
 public class GetTimeUpdateUseCase {
 
-    private RepozitoryEmployees repozitoryEmployees;
+    private IRepozitory IRepozitory;
 
-    public GetTimeUpdateUseCase(RepozitoryEmployees repozitoryEmployees) {
-        this.repozitoryEmployees = repozitoryEmployees;
+    public GetTimeUpdateUseCase(IRepozitory IRepozitory) {
+        this.IRepozitory = IRepozitory;
     }
 
     public String getTimeUpdate() {
-        return repozitoryEmployees.getTimeUpdate();
+        return IRepozitory.getTimeUpdate();
 
     }
 }

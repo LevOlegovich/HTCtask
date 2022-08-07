@@ -14,17 +14,18 @@ import androidx.lifecycle.Transformations;
 
 import com.nlv2022.htc.R;
 import com.nlv2022.htc.constants.Constants;
-import com.nlv2022.htc.data.ApiFactory;
-import com.nlv2022.htc.data.ApiService;
+import com.nlv2022.htc.data.http.ApiFactory;
+import com.nlv2022.htc.data.http.ApiService;
 import com.nlv2022.htc.data.database.AppDataBase;
 import com.nlv2022.htc.data.database.EmployeeDao;
 import com.nlv2022.htc.data.database.EmployeeDbModel;
 import com.nlv2022.htc.data.mapper.MapperEntities;
+import com.nlv2022.htc.data.network.CompanyDto;
 import com.nlv2022.htc.data.network.RootEntityDto;
 import com.nlv2022.htc.data.sharedpref.GeneralInfoShared;
 import com.nlv2022.htc.data.sharedpref.ISharedPrefData;
 import com.nlv2022.htc.data.sharedpref.SharedPrefDataImpl;
-import com.nlv2022.htc.domain.RepozitoryEmployees;
+import com.nlv2022.htc.domain.repozitory.IRepozitory;
 import com.nlv2022.htc.domain.entity.CompanyInfo;
 import com.nlv2022.htc.domain.entity.EmployeeInfo;
 import com.nlv2022.htc.domain.entity.GeneralInfo;
@@ -41,25 +42,27 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class RepozitoryEmployeesImpl implements RepozitoryEmployees {
+public class RepozitoryImpl implements IRepozitory {
+
     private final Application application;
-    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private final EmployeeDao employeeDao;
-    private final MapperEntities mapper = new MapperEntities();
-    private LoadInfo loadInfo = new LoadInfo(false, Constants.DEFAULT_VALUE);
-    private CompanyInfo company = new CompanyInfo();
     private final ISharedPrefData sharedPrefData;
+    private final EmployeeDao employeeDao;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final MapperEntities mapper = new MapperEntities();
+
+    private LoadInfo loadInfo = new LoadInfo(false, Constants.DEFAULT_VALUE);
+    private CompanyDto companyDto = new CompanyDto();
 
 
-    public RepozitoryEmployeesImpl(Application application) {
+    public RepozitoryImpl(Application application) {
         this.application = application;
         this.employeeDao = AppDataBase.getInstance(application).employeeDao();
-        this.sharedPrefData = new SharedPrefDataImpl(application);
+        this.sharedPrefData = new SharedPrefDataImpl(application.getApplicationContext());
     }
 
 
     @Override
-    public LiveData<List<EmployeeInfo>> getAllEmployees() {
+    public LiveData<List<EmployeeInfo>> getAllEmployees() { // трансформация данных у LiveData из базы данных.
 
         return Transformations.map(employeeDao.getAllEmployee(),
                 new Function<List<EmployeeDbModel>, List<EmployeeInfo>>() {
@@ -74,7 +77,7 @@ public class RepozitoryEmployeesImpl implements RepozitoryEmployees {
 
 
     @Override
-    public void loadData() {
+    public void loadData() { // загрузка данных по сети
         ApiFactory apiFactory = ApiFactory.getInstance();
         ApiService apiService = apiFactory.getApiservice();
 
@@ -91,20 +94,20 @@ public class RepozitoryEmployeesImpl implements RepozitoryEmployees {
 
                         insertEmployees(employeeDbModelList); // добавление данных из базы в другом потоке.
 
-                        loadInfo = new LoadInfo(true, getCurrentTime());
-                        company = mapper.mapCompanyDtoToEntity(rootEntityDto.getCompany());
-
-
+                        loadInfo = new LoadInfo(true, getCurrentTime()); // запись данных о загрузке
+                        companyDto = (rootEntityDto.getCompany());
 
                         Toast.makeText(application, R.string.success, Toast.LENGTH_SHORT).show();
                         Log.d("MyTag", "status in RepozitoryEmployeesImpl : " + loadInfo.getStatus());
+
 
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
 
-                        loadInfo = new LoadInfo(false, getTimeUpdate());
+                        loadInfo = new LoadInfo(false, getTimeUpdate()); // запись данных о загрузке
+
                         Toast.makeText(application, R.string.notupdated, Toast.LENGTH_SHORT).show();
                         Log.d("MyTag", "status in RepozitoryEmployeesImpl: " + loadInfo.getStatus());
                     }
@@ -118,31 +121,30 @@ public class RepozitoryEmployeesImpl implements RepozitoryEmployees {
     @Override
     public String getTimeUpdate() {
         return loadInfo.getTime();
-    }
+    } // получение времени обновления
 
     @Override
     public boolean getStatusLoad() {
         return loadInfo.getStatus();
-    }
+    } // информация о статусе загрузки, по умолчанию false.
 
     @Override
     public CompanyInfo getCompanyInfo() {
-        return company;
-    }
+        return mapper.mapCompanyDtoToEntity(companyDto);
+    } // информация о компании
 
     @Override
     public GeneralInfo getGeneralInfo() {
 
         GeneralInfoShared generalInfoShared = sharedPrefData.getGeneralInfoShared();
-        return mapper.getGeneralInfo(generalInfoShared);
-    }
+        return mapper.mapToGeneralInfo(generalInfoShared);
+    } // получение данных из sharedPref.
 
     @Override
     public void saveGeneralInfo(GeneralInfo generalInfo) {
+        sharedPrefData.saveGeneralInfoShared(mapper.mapToGeneralInfoShared(generalInfo));
 
-        sharedPrefData.saveGeneralInfoShared(mapper.getGeneralInfoShared(generalInfo));
-
-    }
+    } // сохранение в sharedPref.
 
 
     public CompositeDisposable getCompositeDisposable() {
@@ -154,7 +156,7 @@ public class RepozitoryEmployeesImpl implements RepozitoryEmployees {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
                 "HH:mm:ss - dd/MM/yyyy", Locale.getDefault());
         return simpleDateFormat.format(date);
-    }
+    }  // получение текущего времени
 
 
     private void insertEmployees(List<EmployeeDbModel> employees) {

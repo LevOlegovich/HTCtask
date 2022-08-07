@@ -1,15 +1,17 @@
 package com.nlv2022.htc.domain.usecase;
 
-import com.nlv2022.htc.domain.RepozitoryEmployees;
+import com.nlv2022.htc.domain.repozitory.IRepozitory;
 
 public class GetStatusLoadUseCase {
-    RepozitoryEmployees repozitoryEmployees;
+    IRepozitory IRepozitory;
 
-    public GetStatusLoadUseCase(RepozitoryEmployees repozitoryEmployees) {
-        this.repozitoryEmployees = repozitoryEmployees;
+    public GetStatusLoadUseCase(IRepozitory IRepozitory) {
+        this.IRepozitory = IRepozitory;
     }
 
     public boolean getStatusLoad() {
-        return repozitoryEmployees.getStatusLoad();
+        return IRepozitory.getStatusLoad();
     }
+
+
 }

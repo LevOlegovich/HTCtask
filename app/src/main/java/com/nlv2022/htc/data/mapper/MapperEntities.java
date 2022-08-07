@@ -62,7 +62,7 @@ public class MapperEntities {
 
     }
 
-    public GeneralInfo getGeneralInfo(GeneralInfoShared generalInfoShared) {
+    public GeneralInfo mapToGeneralInfo(GeneralInfoShared generalInfoShared) {
         return new GeneralInfo(
                 generalInfoShared.getNameCompany(),
                 generalInfoShared.getAgeCompany(),
@@ -72,7 +72,7 @@ public class MapperEntities {
     }
 
 
-    public GeneralInfoShared getGeneralInfoShared(GeneralInfo generalInfo) {
+    public GeneralInfoShared mapToGeneralInfoShared(GeneralInfo generalInfo) {
         return new GeneralInfoShared(
                 generalInfo.getNameCompany(),
                 generalInfo.getAgeCompany(),

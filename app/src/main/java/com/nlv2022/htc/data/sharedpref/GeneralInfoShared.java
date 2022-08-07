@@ -2,7 +2,6 @@ package com.nlv2022.htc.data.sharedpref;
 
 public class GeneralInfoShared {
 
-
     private String nameCompany;
     private String ageCompany;
     private String competensec;

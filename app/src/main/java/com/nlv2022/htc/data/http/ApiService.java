@@ -1,4 +1,4 @@
-package com.nlv2022.htc.data;
+package com.nlv2022.htc.data.http;
 
 import com.nlv2022.htc.data.network.RootEntityDto;
 

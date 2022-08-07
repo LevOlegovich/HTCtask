@@ -1,17 +1,17 @@
 package com.nlv2022.htc.domain.usecase;
 
-import com.nlv2022.htc.domain.RepozitoryEmployees;
+import com.nlv2022.htc.domain.repozitory.IRepozitory;
 
 public class LoadDataUseCase {
 
-    private RepozitoryEmployees repozitoryEmployees;
+    private IRepozitory IRepozitory;
 
-    public LoadDataUseCase(RepozitoryEmployees repozitoryEmployees) {
-        this.repozitoryEmployees = repozitoryEmployees;
+    public LoadDataUseCase(IRepozitory IRepozitory) {
+        this.IRepozitory = IRepozitory;
     }
 
     public void loadData() {
-        repozitoryEmployees.loadData();
+        IRepozitory.loadData();
 
     }
 

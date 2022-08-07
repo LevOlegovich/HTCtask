@@ -60,12 +60,13 @@ public class MainActivityEmployees extends AppCompatActivity {
                 Collections.sort(employees, EmployeeInfo.byName);
                 adapter.submitList(employees);
 
+                if (viewModel.getStatusFromLoadInfo()) { // проверка статуса загрузки у объекта класса LoadInfo
+                    viewModel.saveGeneralInfo();
+                }
                 updateTextViewAfterLoadData(viewModel.getGeneralInfo(), employees);
-                viewModel.saveGeneralInfo();
-                Log.d("MyTag", "list employees: " + employees);
-               // Log.d("MyTag", "status in observe: " + viewModel.getStatusFromLoadInfo());
-                Log.d("MyTag", "shared in observe: " + viewModel.getGeneralInfo().getTimeUpdate());
 
+                Log.d("MyTag", "list employees: " + employees);
+                Log.d("MyTag", "shared in observe: " + viewModel.getGeneralInfo().toString());
 
             }
 
@@ -93,7 +94,8 @@ public class MainActivityEmployees extends AppCompatActivity {
     // updateTextViewAfterLoadData -- здесь  логика отображения данных.
     private void updateTextViewAfterLoadData(GeneralInfo generalInfo, List<EmployeeInfo> employees) {
 
-        initCountEmployees(employees);          // установка текста в TextView , a именно--количество сотрудников)
+        initCountEmployees(employees);          // установка текста в TextView , a именно--количество сотрудников
+
         initText(generalInfo.getTimeUpdate(),
                 generalInfo.getNameCompany(),
                 generalInfo.getAgeCompany(),
@@ -106,7 +108,6 @@ public class MainActivityEmployees extends AppCompatActivity {
         String count = String.valueOf(employees.size());
         binding.itemCount.setText(count);
     }
-
 
     private void initText(String timeUpdate, String nameCompany, String ageCompany, String competencesCompany) {
         binding.tvTime.setText(timeUpdate);

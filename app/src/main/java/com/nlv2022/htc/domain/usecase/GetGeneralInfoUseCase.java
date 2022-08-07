@@ -1,17 +1,17 @@
 package com.nlv2022.htc.domain.usecase;
 
-import com.nlv2022.htc.domain.RepozitoryEmployees;
+import com.nlv2022.htc.domain.repozitory.IRepozitory;
 import com.nlv2022.htc.domain.entity.GeneralInfo;
 
 public class GetGeneralInfoUseCase {
-    private RepozitoryEmployees repozitoryEmployees;
+    private IRepozitory IRepozitory;
 
-    public GetGeneralInfoUseCase(RepozitoryEmployees repozitoryEmployees) {
-        this.repozitoryEmployees = repozitoryEmployees;
+    public GetGeneralInfoUseCase(IRepozitory IRepozitory) {
+        this.IRepozitory = IRepozitory;
     }
 
     public GeneralInfo getGeneralInfo() {
-        return repozitoryEmployees.getGeneralInfo();
+        return IRepozitory.getGeneralInfo();
     }
 
 }

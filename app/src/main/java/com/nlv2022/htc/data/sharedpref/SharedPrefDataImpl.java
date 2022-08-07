@@ -1,19 +1,18 @@
 package com.nlv2022.htc.data.sharedpref;
 
-import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.nlv2022.htc.constants.Constants;
 
 public class SharedPrefDataImpl implements ISharedPrefData {
-    private final Application application;
+    private final Context context;
     private SharedPreferences sharedPreferences;
 
-    public SharedPrefDataImpl(Application application) {
-        this.application = application;
-        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(application.getApplicationContext());
+    public SharedPrefDataImpl(Context context) {
+        this.context = context;
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
 
@@ -25,8 +24,6 @@ public class SharedPrefDataImpl implements ISharedPrefData {
         editor.putString(Constants.AGE_COMPANY, infoShared.getAgeCompany());
         editor.putString(Constants.COMPETENCES_COMPANY, infoShared.getCompetensec());
         editor.commit();
-        Log.d("MyTag", "sharedPreferences Write " + infoShared.getTimeUpdate());
-
 
     }
 

@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.nlv2022.htc.data.repository.RepozitoryEmployeesImpl;
+import com.nlv2022.htc.data.repository.RepozitoryImpl;
 import com.nlv2022.htc.domain.usecase.GetCompanyUseCase;
 import com.nlv2022.htc.domain.usecase.GetGeneralInfoUseCase;
 import com.nlv2022.htc.domain.usecase.GetListEmployeesUseCase;
@@ -23,7 +23,7 @@ import java.util.List;
 
 public class EmployeesViewModel extends AndroidViewModel {
 
-    private final RepozitoryEmployeesImpl repozitory;
+    private final RepozitoryImpl repozitory;
     private final GetListEmployeesUseCase getListEmployeesUseCase;
     private final LoadDataUseCase loadDataUseCase;
     private final GetTimeUpdateUseCase getTimeUpdateUseCase;
@@ -36,7 +36,7 @@ public class EmployeesViewModel extends AndroidViewModel {
     public EmployeesViewModel(@NonNull Application application) {
         super(application);
 
-        this.repozitory = new RepozitoryEmployeesImpl(application);
+        this.repozitory = new RepozitoryImpl(application);
         this.getTimeUpdateUseCase = new GetTimeUpdateUseCase(repozitory);
         this.getStatusLoadUseCase = new GetStatusLoadUseCase(repozitory);
         this.getListEmployeesUseCase = new GetListEmployeesUseCase(this.repozitory);
@@ -62,9 +62,9 @@ public class EmployeesViewModel extends AndroidViewModel {
         return getCompanyUseCase.getCompanyInfo();
     }
 
-    private boolean getStatusFromLoadInfo() {
+    public boolean getStatusFromLoadInfo() {
         return getStatusLoadUseCase.getStatusLoad();
-    } // оказался не нужен, возможно удалю
+    }
 
     private String getTimeUpdateFromLoadInfo() {
         return getTimeUpdateUseCase.getTimeUpdate();
@@ -75,11 +75,13 @@ public class EmployeesViewModel extends AndroidViewModel {
     }
 
     public void saveGeneralInfo() {
+
         GeneralInfo generalInfo = new GeneralInfo(
                 getCompanyInfo().getName(),
                 getCompanyInfo().getAge(),
                 getCompanyInfo().getCompetences().toString(),
                 getTimeUpdateFromLoadInfo());
+
         saveGeneralInfoUseCase.saveGeneralInfo(generalInfo);
     }
 

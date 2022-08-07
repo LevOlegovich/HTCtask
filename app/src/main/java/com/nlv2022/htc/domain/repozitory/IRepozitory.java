@@ -1,4 +1,4 @@
-package com.nlv2022.htc.domain;
+package com.nlv2022.htc.domain.repozitory;
 
 import androidx.lifecycle.LiveData;
 
@@ -8,7 +8,7 @@ import com.nlv2022.htc.domain.entity.GeneralInfo;
 
 import java.util.List;
 
-public interface RepozitoryEmployees {
+public interface IRepozitory {
 
     LiveData<List<EmployeeInfo>> getAllEmployees();
 
